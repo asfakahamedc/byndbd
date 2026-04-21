@@ -26,7 +26,7 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@byndesh/tailwind-config": "workspace:*",
+    "@beyndesh/config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
