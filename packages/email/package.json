@@ -1,0 +1,20 @@
+{
+  "name": "@byndesh/email",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "dev": "email dev",
+    "build": "email export",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-email/components": "latest",
+    "react-email": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}
