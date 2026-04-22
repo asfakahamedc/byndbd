@@ -2,17 +2,17 @@ export declare function getSetting(key: string): Promise<string | number | true 
 export declare function setSetting(key: string, value: any, group?: string): Promise<{
     id: string;
     createdAt: Date;
-    key: string;
-    value: import("@prisma/client/runtime/library").JsonValue;
-    group: string;
     updatedAt: Date;
+    value: import("@prisma/client/runtime/library").JsonValue;
+    key: string;
+    group: string;
 }>;
 export declare function getSettingsByGroup(group: string): Promise<{
     id: string;
     createdAt: Date;
-    key: string;
-    value: import("@prisma/client/runtime/library").JsonValue;
-    group: string;
     updatedAt: Date;
+    value: import("@prisma/client/runtime/library").JsonValue;
+    key: string;
+    group: string;
 }[]>;
 //# sourceMappingURL=settings.d.ts.map

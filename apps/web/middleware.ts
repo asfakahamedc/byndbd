@@ -46,8 +46,20 @@ export default auth((req: NextRequest & { auth: unknown }) => {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
 
-  // Attach security headers to all responses
+  // 2. GEO DETECTION — Set country header for currency defaults
+  const country = req.geo?.country || "BD";
+  
+  // 3. AI CRAWLER DETECTION — Log AI bot access
+  const userAgent = req.headers.get("user-agent") || "";
+  const isAIBot = /GPTBot|Claude|Perplexity|Anthropic|ChatGPT/i.test(userAgent);
+
+  // Attach security headers, geo, and AI detection to all responses
   const response = NextResponse.next();
+  response.headers.set("x-user-country", country);
+  if (isAIBot) {
+    response.headers.set("x-ai-crawler", "true");
+  }
+
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -56,6 +68,9 @@ export default auth((req: NextRequest & { auth: unknown }) => {
     "max-age=63072000; includeSubDomains; preload"
   );
   response.headers.set("X-DNS-Prefetch-Control", "on");
+
+  // 4. RATE LIMITING HEADERS (enforcement at Cloudflare level)
+  response.headers.set("X-RateLimit-Policy", "standard");
 
   return response;
 });

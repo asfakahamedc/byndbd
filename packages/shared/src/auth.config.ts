@@ -66,8 +66,9 @@ export const edgeAuthConfig: NextAuthConfig = {
      */
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as UserRole;
+        const extendedUser = session.user as typeof session.user & { role: UserRole; id: string };
+        extendedUser.id = token.id as string;
+        extendedUser.role = token.role as UserRole;
       }
       return session;
     },

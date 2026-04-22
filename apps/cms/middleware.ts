@@ -75,6 +75,9 @@ export default auth((req: NextRequest & { auth: unknown }) => {
   // Prevent CMS from appearing in search engines or being crawled
   response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
 
+  // AUDIT LOG TRIGGER — Track admin page visits
+  response.headers.set("x-admin-path", pathname);
+
   // Attach role to a response header for server components that need it
   // (avoids re-reading the session token in every server component)
   if (role) {

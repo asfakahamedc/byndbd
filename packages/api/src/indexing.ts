@@ -2,7 +2,7 @@
  * Sync database content to Meilisearch indexes.
  * Called after content publish/update in the CMS.
  */
-import { db } from '@beyndesh/database';
+import { prisma as db } from '@beyndesh/database';
 import { tripsIndex, storiesIndex } from './search';
 
 export async function reindexTrips() {

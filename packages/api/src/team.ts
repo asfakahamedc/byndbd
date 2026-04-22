@@ -1,5 +1,5 @@
-import { db } from '@beyndesh/database';
-import type { Prisma } from '@prisma/client';
+import { prisma as db } from '@beyndesh/database';
+import type { Prisma } from '@beyndesh/database';
 
 export async function getAllTeamMembers() {
   return db.cmsTeamMember.findMany({ orderBy: { createdAt: 'desc' } });
