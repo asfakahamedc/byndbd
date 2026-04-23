@@ -1,47 +1,38 @@
 import type { Metadata } from "next";
-import { Titillium_Web, Goudy_Bookletter_1911, Lavishly_Yours } from "next/font/google";
-import localFont from "next/font/local";
+import { Titillium_Web, Cormorant_Garamond, Lavishly_Yours } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
 // --- Google Fonts ---
 const titillium = Titillium_Web({
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
-  variable: "--font-titillium",
+  weight: ["400", "600", "700", "900"],
+  variable: "--font-titillium-web",
 });
 
-const goudy = Goudy_Bookletter_1911({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-goudy",
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant-garamond",
 });
 
 const lavishly = Lavishly_Yours({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-lavishly",
+  variable: "--font-lavishly-yours",
 });
-
-// --- Local Font (Hubot Sans) ---
-// Temporarily disabled until font file is added to public/fonts/
-/*
-const hubot = localFont({
-  src: "../public/fonts/hubot-sans.woff2",
-  variable: "--font-hubot",
-  fallback: ["system-ui", "sans-serif"],
-  adjustFontFallback: "Arial",
-  display: "swap",
-});
-*/
 
 export const metadata: Metadata = {
-  title: "Beyndesh — Travel Experiences Beyond the Ordinary",
+  title: "Bynd BD — Travel Experiences Beyond Every Horizon",
   description: "Bespoke adventure travel and cultural experiences in Bangladesh.",
   icons: {
     icon: "/favicon.ico",
   },
 };
+
+import { Navbar } from "@/components/navigation/Navbar";
+import { Footer } from "@/components/navigation/Footer";
 
 export default function RootLayout({
   children,
@@ -52,14 +43,15 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body
         className={cn(
-          "min-h-screen bg-bynd-paper text-bynd-black",
+          "min-h-screen bg-bynd-parchment text-bynd-stone antialiased",
           titillium.variable,
-          goudy.variable,
+          cormorant.variable,
           lavishly.variable
-          // hubot.variable
         )}
       >
-        <main>{children}</main>
+        <Navbar />
+        <main id="main-content" className="pt-20">{children}</main>
+        <Footer />
       </body>
     </html>
   );

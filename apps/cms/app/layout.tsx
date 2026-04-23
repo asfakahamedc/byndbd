@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Titillium_Web, Inter } from "next/font/google";
+import { Titillium_Web, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
 const titillium = Titillium_Web({
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  weight: ["400", "600", "700", "900"],
   variable: "--font-titillium-web",
 });
 
-const inter = Inter({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "600"],
+  variable: "--font-cormorant-garamond",
 });
 
 export const metadata: Metadata = {
-  title: "Beyndesh CMS — Admin Portal",
-  description: "Administrative interface for Beyndesh travel platform.",
+  title: "Bynd BD CMS — Admin Portal",
+  description: "Administrative interface for Bynd BD travel platform.",
   robots: {
     index: false,
     follow: false,
@@ -30,14 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="robots" content="noindex, nofollow" />
-      </head>
       <body
         className={cn(
-          "min-h-screen font-body",
+          "min-h-screen bg-bynd-parchment text-bynd-stone antialiased",
           titillium.variable,
-          inter.variable
+          cormorant.variable
         )}
       >
         {children}

@@ -26,6 +26,19 @@ enum ContentStatus {
   ARCHIVED
 }
 
+enum BookingStatus {
+  INQUIRY
+  PROPOSAL_SENT
+  NEGOTIATING
+  DEPOSIT_PENDING
+  DEPOSIT_PAID
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
@@ -41,6 +54,9 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  bookings Booking[]
+  reviews  Review[]
+  wishlist Wishlist[]
 
   @@map("users")
 }
@@ -84,6 +100,8 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+// ─────────────────── CMS CONTENT LAYER ────────────────────
+
 model CmsTrip {
   id                 String        @id @default(cuid())
   title              String
@@ -91,37 +109,237 @@ model CmsTrip {
   slug               String        @unique
   excerpt            String?       @db.Text
   excerptBn          String?       @map("excerpt_bn") @db.Text
-  description        String?       @db.Text
+  description        String        @db.Text
   descriptionBn      String?       @map("description_bn") @db.Text
-  heroImage          String?       @map("hero_image")
+  coverImageUrl      String        @map("cover_image_url")
   heroImageAlt       String?       @map("hero_image_alt")
   heroImageBlurhash  String?       @map("hero_image_blurhash")
   duration           Int
   nights             Int
-  difficulty         String?       // Easy, Moderate, Challenging
-  maxGroupSize       Int?          @map("max_group_size")
+  difficulty         String        // Easy, Moderate, Challenging
+  maxGroupSize       Int           @map("max_group_size")
   itinerary          Json?         // Array of day objects
   includes           Json?         // Array of strings
   excludes           Json?         // Array of strings
-  priceBDT           Decimal       @map("price_bdt") @db.Decimal(12, 2)
-  priceUSD           Decimal?      @map("price_usd") @db.Decimal(12, 2)
-  priceEUR           Decimal?      @map("price_eur") @db.Decimal(12, 2)
+  
+  // Multi-currency layer
+  priceBDT           Decimal       @map("price_bdt") @db.Decimal(10, 2)
+  priceUSD           Decimal?      @map("price_usd") @db.Decimal(10, 2)
+  priceEUR           Decimal?      @map("price_eur") @db.Decimal(10, 2)
+  
   status             ContentStatus @default(DRAFT)
   publishedAt        DateTime?     @map("published_at")
   featured           Boolean       @default(false)
   sortOrder          Int           @default(0) @map("sort_order")
+  
+  // SEO
   metaTitle          String?       @map("meta_title")
   metaDescription    String?       @map("meta_description")
   ogImage            String?       @map("og_image")
+  
   createdBy          String?       @map("created_by")
   updatedBy          String?       @map("updated_by")
   createdAt          DateTime      @default(now()) @map("created_at")
   updatedAt          DateTime      @updatedAt @map("updated_at")
 
+  // Relationships
+  destinationId      String?       @map("destination_id")
+  destination        CmsDestination? @relation(fields: [destinationId], references: [id])
+  taxonomies         CmsTaxonomy[]   @relation("cms_trip_taxonomy") // implicit M:M
+  gallery            CmsMedia[]      @relation("cms_trip_gallery") // implicit M:M
+  relatedTrips       CmsTrip[]       @relation("cms_trip_related") // implicit self M:M
+  relatedTo          CmsTrip[]       @relation("cms_trip_related") 
+  
+  bookings           Booking[]
+  reviews            Review[]
+
   @@index([status])
   @@index([slug])
   @@index([featured])
   @@map("cms_trips")
+}
+
+model CmsStory {
+  id              String        @id @default(cuid())
+  title           String
+  titleBn         String?
+  slug            String        @unique
+  excerpt         String?       @db.Text
+  excerptBn       String?       @db.Text
+  body            String        @db.Text
+  bodyBn          String?       @db.Text
+  coverImageUrl   String        @map("cover_image_url")
+  status          ContentStatus @default(DRAFT)
+  authorId        String        @map("author_id")
+  metaTitle       String?
+  metaDescription String?
+  publishedAt     DateTime?
+  createdBy       String?
+  updatedBy       String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  taxonomies      CmsTaxonomy[] @relation("cms_story_taxonomy") // implicit M:M
+
+  @@map("cms_stories")
+}
+
+model CmsDestination {
+  id              String        @id @default(cuid())
+  name            String
+  nameBn          String?
+  slug            String        @unique
+  description     String        @db.Text
+  descriptionBn   String?       @db.Text
+  coverImageUrl   String        @map("cover_image_url")
+  longitude       Float?
+  latitude        Float?
+  country         String        @default("Bangladesh")
+  region          String?
+  status          ContentStatus @default(DRAFT)
+  
+  trips           CmsTrip[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("cms_destinations")
+}
+
+model CmsTeamMember {
+  id          String        @id @default(cuid())
+  name        String
+  nameBn      String?
+  role        String
+  roleBn      String?
+  bio         String?       @db.Text
+  bioBn       String?       @db.Text
+  imageUrl    String?
+  linkedinUrl String?
+  email       String?
+  sortOrder   Int           @default(0)
+  status      ContentStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("cms_team_members")
+}
+
+model CmsFaq {
+  id         String        @id @default(cuid())
+  question   String        @db.Text
+  questionBn String?       @db.Text
+  answer     String        @db.Text
+  answerBn   String?       @db.Text
+  category   String?
+  sortOrder  Int           @default(0)
+  status     ContentStatus @default(DRAFT)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@map("cms_faq")
+}
+
+model CmsPage {
+  id            String        @id @default(cuid())
+  title         String
+  titleBn       String?
+  slug          String        @unique
+  body          String        @db.Text
+  bodyBn        String?       @db.Text
+  status        ContentStatus @default(DRAFT)
+  metaTitle     String?
+  metaDesc      String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("cms_pages")
+}
+
+model CmsJob {
+  id          String        @id @default(cuid())
+  title       String
+  titleBn     String?
+  slug        String        @unique
+  department  String?
+  location    String?
+  type        String?       // FULL_TIME, PART_TIME, CONTRACT
+  description String        @db.Text
+  status      ContentStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("cms_jobs")
+}
+
+model CmsPartner {
+  id        String        @id @default(cuid())
+  name      String
+  logoUrl   String
+  website   String?
+  sortOrder Int           @default(0)
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("cms_partners")
+}
+
+model CmsMedia {
+  id        String   @id @default(cuid())
+  url       String
+  key       String   @unique // R2 bucket key
+  filename  String
+  mimetype  String
+  sizeBytes Int
+  width     Int?
+  height    Int?
+  altText   String?
+  createdBy String?
+  createdAt DateTime @default(now())
+
+  trips CmsTrip[] @relation("cms_trip_gallery") // implicit M:M
+  
+  @@map("cms_media")
+}
+
+model CmsTaxonomy {
+  id          String   @id @default(cuid())
+  name        String
+  nameBn      String?
+  slug        String   @unique
+  type        String   // CATEGORY, TAG, DESTINATION_TYPE
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  trips   CmsTrip[]  @relation("cms_trip_taxonomy") // implicit M:M
+  stories CmsStory[] @relation("cms_story_taxonomy") // implicit M:M
+
+  @@map("cms_taxonomy")
+}
+
+model CmsMenu {
+  id        String   @id @default(cuid())
+  name      String   @unique // e.g., 'main_nav', 'footer'
+  items     Json     // Tree structure of links
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cms_menus")
+}
+
+model CmsContentVersion {
+  id         String   @id @default(cuid())
+  entityType String   @map("entity_type") // 'trip', 'story', etc.
+  entityId   String   @map("entity_id")
+  version    Int
+  data       Json
+  changeNote String?  @map("change_note")
+  createdBy  String   @map("created_by")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([entityType, entityId, version])
+  @@map("cms_content_versions")
 }
 
 model CmsSetting {
@@ -133,6 +351,178 @@ model CmsSetting {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("cms_settings")
+}
+
+// ─────────────────── TRANSACTIONAL LAYER ────────────────────
+
+model Booking {
+  id                      String        @id @default(cuid())
+  bookingRef              String        @unique @map("booking_ref") // short friendly ID like BND-1049
+  tripId                  String        @map("trip_id")
+  trip                    CmsTrip       @relation(fields: [tripId], references: [id])
+  userId                  String?       @map("user_id") // Optional if guest
+  user                    User?         @relation(fields: [userId], references: [id])
+  
+  status                  BookingStatus @default(INQUIRY)
+  currency                String        @default("BDT")
+  totalPrice              Decimal       @map("total_price") @db.Decimal(10, 2)
+  amountPaid              Decimal       @map("amount_paid") @db.Decimal(10, 2) @default(0)
+  
+  travelStartDate         DateTime      @map("travel_start_date")
+  travelEndDate           DateTime      @map("travel_end_date")
+  
+  // Passenger Info
+  adults                  Int           @default(1)
+  children                Int           @default(0)
+  infants                 Int           @default(0)
+  accommodationPreference String?       @map("accommodation_preference")
+  dietaryRequirements     Json?         @map("dietary_requirements")
+  specialRequirements     String?       @db.Text
+  
+  // Contact Info
+  contactName             String        @map("contact_name")
+  contactEmail            String        @map("contact_email")
+  contactPhone            String        @map("contact_phone")
+  emergencyName           String?       @map("emergency_name")
+  emergencyPhone          String?       @map("emergency_phone")
+
+  payments                Payment[]
+  notes                   BookingNote[]
+  documents               BookingDocument[]
+
+  createdAt               DateTime      @default(now()) @map("created_at")
+  updatedAt               DateTime      @updatedAt @map("updated_at")
+
+  @@map("bookings")
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  bookingId     String   @map("booking_id")
+  booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  transactionId String?  @unique @map("transaction_id") // Provider ID (Stripe/SSLCommerz)
+  provider      String   // STRIPE, SSLCOMMERZ
+  amount        Decimal  @db.Decimal(10, 2)
+  currency      String   @default("BDT")
+  status        String   // PENDING, COMPLETED, FAILED, REFUNDED
+  method        String?  // CARD, BKASH, NAGAD
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("payments")
+}
+
+model BookingNote {
+  id        String   @id @default(cuid())
+  bookingId String   @map("booking_id")
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  authorId  String   @map("author_id") // admin who wrote it
+  text      String   @db.Text
+  isPrivate Boolean  @default(true) // visible to admins only
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("booking_notes")
+}
+
+model BookingDocument {
+  id        String   @id @default(cuid())
+  bookingId String   @map("booking_id")
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  name      String
+  url       String
+  type      String   // INVOICE, ITINERARY, TICKETS
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("booking_documents")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  tripId    String   @map("trip_id")
+  trip      CmsTrip  @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  rating    Int      @default(5)
+  title     String
+  body      String   @db.Text
+  photoUrl  String?
+  status    ContentStatus @default(IN_REVIEW)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("reviews")
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tripSlugs Json     @map("trip_slugs") // Array of saved trip slugs
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId])
+  @@map("wishlists")
+}
+
+model GiftCard {
+  id             String   @id @default(cuid())
+  code           String   @unique
+  amountBDT      Decimal  @map("amount_bdt") @db.Decimal(10, 2)
+  balanceBDT     Decimal  @map("balance_bdt") @db.Decimal(10, 2)
+  senderName     String
+  senderEmail    String
+  recipientName  String
+  recipientEmail String
+  message        String?  @db.Text
+  deliveryDate   DateTime
+  status         String   // PENDING_PAYMENT, ISSUED, REDEEMED
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("gift_cards")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  status    String   // SUBSCRIBED, UNSUBSCRIBED
+  tripSlug  String?  // optional origin tag
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
+}
+
+model ContactSubmission {
+  id             String   @id @default(cuid())
+  name           String
+  email          String
+  phone          String?
+  subject        String
+  message        String   @db.Text
+  tripInterest   String?
+  preferredDates String?
+  status         String   @default("NEW") // NEW, READ, RESPONDED
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("contact_submissions")
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String?
+  sessionId String?
+  metadata  Json?
+  url       String?
+  userAgent String?
+  country   String?
+  createdAt DateTime @default(now())
+
+  @@index([name, createdAt])
+  @@map("analytics_events")
 }
 
 model AuditLog {

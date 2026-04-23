@@ -2,21 +2,21 @@ import { prisma as db } from '@beyndesh/database';
 import type { Prisma } from '@beyndesh/database';
 
 export async function getAllStorys() {
-  return db.story.findMany({ orderBy: { createdAt: 'desc' } });
+  return db.cmsStory.findMany({ orderBy: { createdAt: 'desc' } });
 }
 
 export async function getStoryById(id: string) {
-  return db.story.findUnique({ where: { id } });
+  return db.cmsStory.findUnique({ where: { id } });
 }
 
 export async function createStory(data: Prisma.CmsStoryCreateInput) {
-  return db.story.create({ data });
+  return db.cmsStory.create({ data });
 }
 
 export async function updateStory(id: string, data: Prisma.CmsStoryUpdateInput) {
-  return db.story.update({ where: { id }, data });
+  return db.cmsStory.update({ where: { id }, data });
 }
 
 export async function deleteStory(id: string) {
-  return db.story.delete({ where: { id } });
+  return db.cmsStory.delete({ where: { id } });
 }

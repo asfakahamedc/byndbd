@@ -1,9 +1,9 @@
 /**
  * Meilisearch integration for full-text trip/story search.
  */
-import { MeiliSearch } from 'meilisearch';
+import { Meilisearch } from 'meilisearch';
 
-const client = new MeiliSearch({
+const client = new Meilisearch({
   host: process.env.MEILISEARCH_HOST ?? 'http://localhost:7700',
   apiKey: process.env.MEILISEARCH_API_KEY,
 });

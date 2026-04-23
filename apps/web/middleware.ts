@@ -20,8 +20,13 @@ const { auth } = NextAuth(edgeAuthConfig);
 // Routes requiring an authenticated session (any role)
 const PROTECTED_PREFIXES = ["/dashboard", "/book"];
 
-export default auth((req: NextRequest & { auth: unknown }) => {
-  const session = (req as any).auth;
+/**
+ * Middleware handler with explicit type annotation to satisfy Next.js build.
+ * We use 'any' for the wrapper to bypass complex NextAuth type inference issues 
+ * that often occur in monorepos or with specific JOSE versions.
+ */
+const middleware: any = auth((req: any) => {
+  const session = req.auth;
   const isLoggedIn = !!session;
   const { pathname } = req.nextUrl;
 
@@ -74,6 +79,8 @@ export default auth((req: NextRequest & { auth: unknown }) => {
 
   return response;
 });
+
+export default middleware;
 
 export const config = {
   /**

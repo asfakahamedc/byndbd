@@ -38,34 +38,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bynd-paper flex items-center justify-center p-4">
+    <div className="min-h-screen bg-bynd-parchment flex items-center justify-center p-4 selection:bg-bynd-flame selection:text-white">
       <div className="w-full max-w-md">
         {/* Branding */}
-        <div className="text-center mb-10">
-          <h1 className="font-heading text-4xl tracking-tighter text-bynd-black mb-2">
-            BEYNDESH <span className="text-bynd-orange">CMS</span>
+        <div className="text-center mb-12">
+          <h1 className="font-heading font-black text-5xl tracking-tighter text-bynd-ink mb-4">
+            Bynd BD <span className="text-bynd-flame font-light">CMS</span>
           </h1>
-          <p className="text-gray-500 text-sm uppercase tracking-widest font-semibold">
-            Administrative Access
+          <p className="text-bynd-ash text-[10px] uppercase tracking-[0.25em] font-bold">
+            Administrative Access Portal
           </p>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white border border-gray-200 shadow-xl rounded-2xl p-8">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="bg-bynd-cream border-gradient-gold shadow-heavy rounded-panel p-10">
+          <form className="space-y-8" onSubmit={handleSubmit}>
             {error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-100 rounded-lg text-center font-medium">
+              <div className="p-4 text-[11px] text-bynd-flame-deep bg-bynd-flame-pale/10 border border-bynd-flame-pale/20 rounded-btn text-center font-bold uppercase tracking-widest">
                 {error}
               </div>
             )}
             
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+              <label className="block text-[10px] font-bold text-bynd-ash uppercase tracking-[0.2em] mb-3">
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-300" />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-4 w-4 text-bynd-mist" />
                 </div>
                 <input
                   type="email"
@@ -73,19 +73,19 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-bynd-orange focus:border-bynd-orange text-sm transition-all bg-gray-50 focus:bg-white"
-                  placeholder="admin@beyndesh.com"
+                  className="block w-full pl-12 pr-4 py-4 border-b-[1.5px] border-bynd-border bg-transparent text-bynd-ink placeholder-bynd-mist/50 text-sm transition-all focus:outline-none focus:border-bynd-flame"
+                  placeholder="admin@byndbd.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+              <label className="block text-[10px] font-bold text-bynd-ash uppercase tracking-[0.2em] mb-3">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-300" />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-4 w-4 text-bynd-mist" />
                 </div>
                 <input
                   type="password"
@@ -93,7 +93,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-bynd-orange focus:border-bynd-orange text-sm transition-all bg-gray-50 focus:bg-white"
+                  className="block w-full pl-12 pr-4 py-4 border-b-[1.5px] border-bynd-border bg-transparent text-bynd-ink placeholder-bynd-mist/50 text-sm transition-all focus:outline-none focus:border-bynd-flame"
                   placeholder="••••••••"
                 />
               </div>
@@ -102,15 +102,15 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-bynd-black text-white py-4 rounded-xl font-heading tracking-widest text-sm hover:bg-black transition-colors shadow-lg active:scale-[0.98] disabled:opacity-70"
+              className="w-full bg-ember shadow-flame text-bynd-parchment py-5 rounded-btn font-heading font-black tracking-[0.2em] text-xs hover:bg-ember-hover transition-all duration-300 active:scale-[0.99] disabled:opacity-70 uppercase"
             >
-              {loading ? "AUTHENTICATING..." : "SIGN IN"}
+              {loading ? "Authenticating..." : "Sign In Access →"}
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-gray-100 text-center">
-            <p className="text-xs text-gray-400">
-              Problems logging in? Please contact the system administrator.
+          <div className="mt-10 pt-10 border-t border-bynd-border text-center">
+            <p className="text-[10px] text-bynd-ash font-bold uppercase tracking-widest">
+              Secured Administrative Gateway
             </p>
           </div>
         </div>

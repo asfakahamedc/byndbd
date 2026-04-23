@@ -26,26 +26,25 @@ async function main() {
   console.log("DEBUG: DATABASE_URL has %23:", process.env.DATABASE_URL?.includes("%23"));
 
   try {
-    // 1. Create Super Admin
+    // 1. Create/Update Super Admin
     const adminEmail = "admin@beyndesh.com";
-    const existingAdmin = await prisma.user.findUnique({
+    const adminPassword = "123210###";
+    const hashedPassword = await bcrypt.hash(adminPassword, 12);
+    
+    await prisma.user.upsert({
       where: { email: adminEmail },
+      update: {
+        password: hashedPassword,
+        role: UserRole.SUPER_ADMIN,
+      },
+      create: {
+        email: adminEmail,
+        name: "Beyndesh Super Admin",
+        password: hashedPassword,
+        role: UserRole.SUPER_ADMIN,
+      },
     });
-
-    if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash("Admin@123456", 12);
-      await prisma.user.create({
-        data: {
-          email: adminEmail,
-          name: "Beyndesh Super Admin",
-          password: hashedPassword,
-          role: UserRole.SUPER_ADMIN,
-        },
-      });
-      console.log("✅ Super Admin created");
-    } else {
-      console.log("⏩ Super Admin already exists");
-    }
+    console.log(`✅ Super Admin ${adminEmail} updated with requested password`);
 
     // 2. Create Sample Trips
     const countTrips = await prisma.cmsTrip.count();

@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@beyndesh/database": "workspace:*",
-    "@beyndesh/shared": "workspace:*"
+    "@beyndesh/shared": "workspace:*",
+    "meilisearch": "^0.57.0"
   },
   "devDependencies": {
     "@beyndesh/config": "workspace:*",

@@ -178,6 +178,9 @@ importers:
       '@beyndesh/shared':
         specifier: workspace:*
         version: link:../shared
+      meilisearch:
+        specifier: ^0.57.0
+        version: 0.57.0
     devDependencies:
       '@beyndesh/config':
         specifier: workspace:*
@@ -2197,6 +2200,10 @@ packages:
 
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
+
+  meilisearch@0.57.0:
+    resolution: {integrity: sha512-J3ZdX6MjguEIG9Yo+duRZeVsbMdRuwM2OFvJUs8wZSeBADYZ2qc1eajlClKLRqS/mAhGh2bLiU5SbmhKXKuWSw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
 
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -4995,6 +5002,8 @@ snapshots:
   math-intrinsics@1.1.0: {}
 
   mdn-data@2.27.1: {}
+
+  meilisearch@0.57.0: {}
 
   merge2@1.4.1: {}
 

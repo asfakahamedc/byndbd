@@ -6,6 +6,7 @@ import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScrollPosition } from "@/lib/hooks/useScrollPosition";
 import { MobileMenu } from "./MobileMenu";
+import { Container } from "../layout/Container";
 
 interface NavbarProps {
   transparent?: boolean;
@@ -22,15 +23,16 @@ export function Navbar({ transparent = false }: NavbarProps) {
   const isTransparent = transparent && !isScrolled;
 
   const navLinks = [
-    { name: "Destinations", href: "/destinations" },
-    { name: "Experiences", href: "/experiences" },
+    { name: "Home", href: "/" },
+    { name: "Trips", href: "/trips" },
     { name: "About", href: "/about" },
-    { name: "Journal", href: "/blog" },
+    { name: "Stories", href: "/stories" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
     <>
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-bynd-black">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-bynd-cream focus:text-bynd-ink">
         Skip to main content
       </a>
       <nav
@@ -38,20 +40,20 @@ export function Navbar({ transparent = false }: NavbarProps) {
         className={cn(
           "fixed top-0 inset-x-0 z-40 transition-all duration-300",
           {
-            "bg-transparent text-white": isTransparent,
-            "bg-bynd-paper shadow-sm text-bynd-black": !isTransparent,
+            "bg-transparent text-bynd-cream": isTransparent,
+            "bg-bynd-parchment shadow-soft text-bynd-ink": !isTransparent,
           }
         )}
       >
-        <div className="mx-auto w-full px-5 sm:px-8 lg:px-12 max-w-7xl">
+        <Container>
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link
               href="/"
-              className="font-logo font-bold uppercase text-2xl tracking-tight flex-shrink-0"
-              aria-label="Beyndesh Home"
+              className="font-heading font-black uppercase text-2xl tracking-tighter flex-shrink-0"
+              aria-label="Bynd BD Home"
             >
-              Beyndesh
+              Bynd BD
             </Link>
 
             {/* Desktop Navigation */}
@@ -60,7 +62,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="font-heading uppercase text-label tracking-[0.2em] hover:text-bynd-orange transition-colors"
+                  className="font-heading uppercase text-[11px] font-bold tracking-[0.2em] hover:text-bynd-flame transition-colors"
                 >
                   {link.name}
                 </Link>
@@ -70,16 +72,16 @@ export function Navbar({ transparent = false }: NavbarProps) {
             {/* Desktop CTA */}
             <div className="hidden md:flex flex-shrink-0 ml-8">
               <Link
-                href="/book-now"
-                className="bg-bynd-orange text-white font-heading uppercase text-xs tracking-[0.1em] px-6 py-3 rounded-full hover:bg-black transition-colors font-bold"
+                href="/booking"
+                className="bg-ember shadow-flame text-bynd-parchment font-heading uppercase text-[11px] font-black tracking-[0.18em] px-8 py-3.5 rounded-btn hover:bg-ember-hover hover:shadow-flame-lg hover:-translate-y-0.5 transition-all duration-250 active:translate-y-0"
               >
-                Book Now
+                BOOK NOW →
               </Link>
             </div>
 
             {/* Mobile Hamburger toggle */}
             <button
-              className="md:hidden flex items-center p-2 focus:outline-none focus:ring-2 focus:ring-bynd-orange rounded"
+              className="md:hidden flex items-center p-2 focus:outline-none focus:ring-2 focus:ring-bynd-flame rounded"
               onClick={() => setMobileMenuOpen(true)}
               aria-expanded={mobileMenuOpen}
               aria-label="Open main menu"
@@ -87,7 +89,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
               <Menu className="w-6 h-6" />
             </button>
           </div>
-        </div>
+        </Container>
       </nav>
 
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />

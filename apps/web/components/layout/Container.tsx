@@ -10,10 +10,10 @@ export function Container({ children, className, size = "default" }: ContainerPr
   return (
     <div
       className={cn(
-        "mx-auto w-full px-5 sm:px-8 lg:px-12",
+        "relative mx-auto w-full px-5 sm:px-8 lg:px-12 transition-all duration-300",
         {
           "max-w-4xl": size === "narrow",
-          "max-w-7xl": size === "default", // ~1280px
+          "max-w-7xl": size === "default",
           "max-w-[1600px]": size === "wide",
         },
         className
