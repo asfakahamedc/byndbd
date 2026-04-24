@@ -4,77 +4,64 @@ module.exports = {
     extend: {
       colors: {
         bynd: {
-          // PRIMARY PALETTE
-          flame: {
-            DEFAULT: "#FF5F0F",
-            light: "#FF7A3D",
-            pale: "#FF9D71",
-            deep: "#C24B0A",
-            darker: "#B83D08",
-          },
-          amber: "#E8A830",
-          gold: "#F0C060",
-          wheat: "#F5DFA0",
+          // PRIMARY ORANGE FAMILY
+          flame: "#FF5F0F",       // Primary brand orange
+          "flame-light": "#FF7A3D", // Hover states
+          "flame-pale": "#FF9D71",  // Tags on dark
+          "flame-deep": "#C24B0A",  // Active/pressed
+          "flame-darkest": "#B83D08", // Active endpoint
           
-          // NEUTRAL PALETTE
-          ink: "#1D1D1B",
-          charcoal: "#2A1510",
-          stone: "#4A4A48",
-          pewter: "#5E5E5C",
-          ash: "#7A7A78",
-          silver: "#A1A1A0",
-          mist: "#C8C8C7",
-          border: "#D9D8C3",
+          // GOLD / SECONDARY FAMILY
+          amber: "#E8A830",     // Secondary gold
+          gold: "#F0C060",      // Tertiary gold / Emphasis on dark
+          wheat: "#F5DFA0",     // Warm neutral / Sunrise midpoint
+          
+          // NEUTRAL FAMILY
+          ink: "#1D1D1B",       // Primary dark
+          charcoal: "#2A1510",  // Deepest dark
+          stone: "#4A4A48",     // Body text on light
+          pewter: "#5E5E5C",    // Secondary text
+          ash: "#7A7A78",       // Tertiary text / body default
+          silver: "#A1A1A0",    // Disabled / section labels
+          mist: "#C8C8C7",      // Body text on dark
+          border: "#D9D8C3",    // Dividers/borders on light
 
-          // SURFACE PALETTE
-          cream: "#FAF9F2",
-          parchment: "#F4F3E6",
-          linen: "#E8E7D4",
-          ivory: "#FFFAF0",
-          blush: "#FFE4D4",
-          peach: "#FFC5A8",
+          // SURFACE FAMILY
+          cream: "#FAF9F2",     // Page background
+          parchment: "#F4F3E6", // Secondary light / footer
+          linen: "#E8E7D4",     // Tertiary light / fog endpoint
+          ivory: "#FFFAF0",     // Ivory highlights
+          blush: "#FFE4D4",     // Blush warm tint
+          peach: "#FFC5A8",     // Peach warm accent
           
-          // Legacy aliases to prevent breaking existing classes
-          orange: {
-            DEFAULT: "#FF5F0F",
-            500: "#FF5F0F",
-            600: "#FF7A3D",
-            700: "#C24B0A",
-            400: "#FF9D71",
-          },
-          black: {
-            DEFAULT: "#1D1D1B",
-            900: "#1D1D1B",
-            800: "#2A1510",
-          },
-          paper: {
-            DEFAULT: "#FAF9F2",
-            dark: "#F4F3E6",
-          }
+          // Legacy/Fallback aliases (kept for stability)
+          orange: "#FF5F0F",
+          black: "#1D1D1B",
+          paper: "#FAF9F2",
         },
       },
       fontFamily: {
-        heading: ["var(--font-titillium-web)", "sans-serif"],
-        display: ["var(--font-cormorant-garamond)", "serif"],
-        body: ["var(--font-cormorant-garamond)", "serif"], // Reskin rules use Display for body prose
-        signature: ["var(--font-lavishly-yours)", "cursive"],
+        logo: ["'Titillium Web'", "sans-serif"],
+        heading: ["'Titillium Web'", "sans-serif"],
+        body: ["'Goudy Bookletter 1911'", "serif"],
+        signature: ["'Lavishly Yours'", "cursive"],
       },
       fontSize: {
-        "label-micro": ["11px", { lineHeight: "1", letterSpacing: "0.25em", fontWeight: "700" }],
+        "micro": ["9px", { lineHeight: "1", letterSpacing: "0.4em", fontWeight: "700" }],
+        "label": ["10px", { lineHeight: "1.2", letterSpacing: "0.15em", fontWeight: "700" }],
       },
       boxShadow: {
-        "soft": "0 2px 8px rgba(0,0,0,0.06)",
-        "card": "0 4px 20px rgba(0,0,0,0.08)",
-        "elevated": "0 8px 40px rgba(0,0,0,0.10)",
-        "heavy": "0 12px 40px rgba(0,0,0,0.20)",
-        "flame": "0 4px 15px rgba(255,95,15,0.30)",
-        "flame-lg": "0 8px 25px rgba(255,95,15,0.45)",
-        "dark-btn": "0 4px 20px rgba(42,21,16,0.40)",
+        "premium": "0 20px 50px -15px rgba(255, 95, 15, 0.15)",
+        "soft": "0 2px 8px rgba(0,0,0,0.05)",
+        "flame": "0 4px 15px rgba(255, 95, 15, 0.15)",
+        "flame-lg": "0 8px 25px rgba(255, 95, 15, 0.25)",
       },
       borderRadius: {
         'btn': '2px',
-        'card': '4px',
-        'panel': '6px',
+        'xl': '12px',
+        '2xl': '16px',
+        '3xl': '24px',
+        'panel': '40px',
       },
     },
   },

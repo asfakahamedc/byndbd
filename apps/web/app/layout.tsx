@@ -1,31 +1,29 @@
 import type { Metadata } from "next";
-import { Titillium_Web, Cormorant_Garamond, Lavishly_Yours } from "next/font/google";
+import { Titillium_Web, Goudy_Bookletter_1911, Lavishly_Yours } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-// --- Google Fonts ---
 const titillium = Titillium_Web({
   subsets: ["latin"],
   weight: ["400", "600", "700", "900"],
   variable: "--font-titillium-web",
 });
 
-const cormorant = Cormorant_Garamond({
+const goudy = Goudy_Bookletter_1911({
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant-garamond",
+  weight: ["400"],
+  variable: "--font-goudy",
 });
 
 const lavishly = Lavishly_Yours({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-lavishly-yours",
+  variable: "--font-lavishly",
 });
 
 export const metadata: Metadata = {
-  title: "Bynd BD — Travel Experiences Beyond Every Horizon",
-  description: "Bespoke adventure travel and cultural experiences in Bangladesh.",
+  title: "Bynd BD — Beyond Bangladesh",
+  description: "Bespoke adventure travel and cultural experiences. Travel beyond the last light.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -43,14 +41,15 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body
         className={cn(
-          "min-h-screen bg-bynd-parchment text-bynd-stone antialiased",
+          "min-h-screen bg-bynd-cream text-bynd-ink antialiased selection:bg-bynd-flame selection:text-white",
           titillium.variable,
-          cormorant.variable,
+          goudy.variable,
           lavishly.variable
         )}
       >
         <Navbar />
-        <main id="main-content" className="pt-20">{children}</main>
+        {/* Removed horizontal padding and top padding to allow full-width heroes/sections */}
+        <main id="main-content">{children}</main>
         <Footer />
       </body>
     </html>

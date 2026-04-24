@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Titillium_Web, Cormorant_Garamond } from "next/font/google";
+import { Titillium_Web, Goudy_Bookletter_1911, Lavishly_Yours } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -9,10 +9,16 @@ const titillium = Titillium_Web({
   variable: "--font-titillium-web",
 });
 
-const cormorant = Cormorant_Garamond({
+const goudy = Goudy_Bookletter_1911({
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
-  variable: "--font-cormorant-garamond",
+  weight: ["400"],
+  variable: "--font-goudy",
+});
+
+const lavishly = Lavishly_Yours({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-lavishly",
 });
 
 export const metadata: Metadata = {
@@ -33,9 +39,10 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-bynd-parchment text-bynd-stone antialiased",
+          "min-h-screen bg-bynd-cream text-bynd-ink antialiased",
           titillium.variable,
-          cormorant.variable
+          goudy.variable,
+          lavishly.variable
         )}
       >
         {children}

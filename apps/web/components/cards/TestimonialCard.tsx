@@ -19,7 +19,7 @@ function TestimonialCard({ quote, author, tripDetails, rating = 5, isFeatured = 
       </div>
 
       {/* Quote */}
-      <blockquote className={`font-display text-bynd-ink italic leading-relaxed mb-10 ${isFeatured ? 'text-2xl md:text-5xl max-w-4xl' : 'text-xl flex-1'}`}>
+      <blockquote className={`font-body text-bynd-ink italic leading-relaxed mb-10 ${isFeatured ? 'text-2xl md:text-5xl max-w-4xl' : 'text-xl flex-1'}`}>
         &ldquo;{quote}&rdquo;
       </blockquote>
 

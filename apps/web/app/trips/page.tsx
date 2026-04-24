@@ -61,10 +61,10 @@ export default function AllTripsPage() {
             <span className="text-bynd-flame font-heading font-black uppercase tracking-[0.25em] text-[10px]">
               ALL JOURNEYS
             </span>
-            <h1 className="font-display font-light uppercase text-5xl md:text-7xl lg:text-8xl text-bynd-ink leading-[1] text-gradient-gold py-2">
+            <h1 className="font-body font-light uppercase text-5xl md:text-7xl lg:text-8xl text-bynd-ink leading-[1] text-gradient-gold py-2">
               FIND YOUR BANGLADESH.
             </h1>
-            <p className="font-display italic text-bynd-stone text-xl md:text-2xl max-w-3xl mx-auto">
+            <p className="font-body italic text-bynd-stone text-xl md:text-2xl max-w-3xl mx-auto">
               Browse every journey we offer — from weekend escapes in Dhaka to multi-week expeditions across the delta.
             </p>
           </div>

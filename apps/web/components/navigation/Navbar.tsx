@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useScrollPosition } from "@/lib/hooks/useScrollPosition";
 import { MobileMenu } from "./MobileMenu";
 import { Container } from "../layout/Container";
+import { LogoMark } from "../branding/LogoMark";
 
 interface NavbarProps {
   transparent?: boolean;
@@ -16,10 +17,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
   const scrollY = useScrollPosition();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // If we scroll past 50px, we treat it as scrolled
   const isScrolled = scrollY > 50;
-  
-  // The nav starts transparent only if asked to, and we haven't scrolled
   const isTransparent = transparent && !isScrolled;
 
   const navLinks = [
@@ -40,20 +38,27 @@ export function Navbar({ transparent = false }: NavbarProps) {
         className={cn(
           "fixed top-0 inset-x-0 z-40 transition-all duration-300",
           {
-            "bg-transparent text-bynd-cream": isTransparent,
-            "bg-bynd-parchment shadow-soft text-bynd-ink": !isTransparent,
+            "bg-transparent": isTransparent,
+            "bg-white/80 backdrop-blur-md border-b border-black/5 shadow-sm": !isTransparent,
           }
         )}
       >
         <Container>
           <div className="flex justify-between items-center h-20">
-            {/* Logo */}
+            {/* Wordmark Lockup Pattern */}
             <Link
               href="/"
-              className="font-heading font-black uppercase text-2xl tracking-tighter flex-shrink-0"
+              className="flex items-center gap-3 group"
               aria-label="Bynd BD Home"
             >
-              Bynd BD
+              <LogoMark size={32} color={isTransparent ? "#FAF9F2" : undefined} />
+              <div className={cn("w-px h-6", isTransparent ? "bg-white/20" : "bg-black/10")} />
+              <span className={cn(
+                "font-logo text-xl uppercase",
+                isTransparent ? "text-bynd-cream" : "text-bynd-ink"
+              )}>
+                BYND BD
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -62,26 +67,32 @@ export function Navbar({ transparent = false }: NavbarProps) {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="font-heading uppercase text-[11px] font-bold tracking-[0.2em] hover:text-bynd-flame transition-colors"
+                  className={cn(
+                    "font-heading text-[10px] font-bold uppercase tracking-[0.15em] transition-colors",
+                    isTransparent ? "text-bynd-cream hover:text-bynd-gold" : "text-bynd-ash hover:text-bynd-flame"
+                  )}
                 >
                   {link.name}
                 </Link>
               ))}
             </div>
 
-            {/* Desktop CTA */}
+            {/* Desktop CTA — Pill Shape per rule */}
             <div className="hidden md:flex flex-shrink-0 ml-8">
               <Link
                 href="/booking"
-                className="bg-ember shadow-flame text-bynd-parchment font-heading uppercase text-[11px] font-black tracking-[0.18em] px-8 py-3.5 rounded-btn hover:bg-ember-hover hover:shadow-flame-lg hover:-translate-y-0.5 transition-all duration-250 active:translate-y-0"
+                className="bg-ember text-white font-heading uppercase text-[9px] font-bold tracking-[0.15em] px-6 py-2 rounded-full shadow-premium hover:shadow-orange-500/20 transition-all hover:scale-105 active:scale-95"
               >
-                BOOK NOW →
+                BOOK NOW
               </Link>
             </div>
 
             {/* Mobile Hamburger toggle */}
             <button
-              className="md:hidden flex items-center p-2 focus:outline-none focus:ring-2 focus:ring-bynd-flame rounded"
+              className={cn(
+                "md:hidden flex items-center p-2 focus:outline-none focus:ring-2 focus:ring-bynd-flame rounded",
+                isTransparent ? "text-white" : "text-bynd-ink"
+              )}
               onClick={() => setMobileMenuOpen(true)}
               aria-expanded={mobileMenuOpen}
               aria-label="Open main menu"

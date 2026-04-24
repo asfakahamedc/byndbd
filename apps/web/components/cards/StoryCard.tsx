@@ -13,49 +13,53 @@ interface StoryCardProps {
 function StoryCard({ category, title, excerpt, readTime, href, isFeatured = false }: StoryCardProps) {
   return (
     <div className={cn(
-      "group flex transition-all duration-300 overflow-hidden border-gradient-gold rounded-card shadow-soft hover:shadow-card hover:-translate-y-1",
-      isFeatured ? "flex-col md:flex-row col-span-full" : "flex-col h-full"
+      "group flex transition-all duration-500 overflow-hidden rounded-3xl shadow-sm hover:shadow-premium hover:-translate-y-1 relative",
+      isFeatured ? "flex-col md:flex-row col-span-full" : "flex-col h-full",
+      "bg-fog border border-black/5" // Using Fog gradient for info cards per spec
     )}>
+      {/* Decorative Golden Corner Bar per rule */}
+      <div className="absolute top-0 right-0 w-12 h-1 bg-golden opacity-50 z-20" />
+
       {/* Image Container */}
       <div className={cn(
         "relative bg-bynd-charcoal overflow-hidden",
-        isFeatured ? "w-full md:w-1/2 aspect-[4/3]" : "w-full aspect-[4/3]"
+        isFeatured ? "w-full md:w-5/12" : "w-full aspect-[16/10]"
       )}>
-        <div className="absolute inset-0 bg-horizon opacity-20 mix-blend-overlay group-hover:scale-105 transition-transform duration-700" />
+        <div className="absolute inset-0 bg-dusk opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-1000" />
       </div>
 
-      {/* Content */}
+      {/* Content Area */}
       <div className={cn(
-        "flex flex-col bg-bynd-parchment",
-        isFeatured ? "w-full md:w-1/2 p-8 md:p-14 justify-center" : "flex-1 p-8"
+        "flex flex-col",
+        isFeatured ? "w-full md:w-7/12 p-12 md:p-20 justify-center" : "flex-1 p-10"
       )}>
-        <span className="text-bynd-flame text-[10px] font-heading font-black uppercase tracking-[0.25em] mb-6 block">
+        <span className="text-bynd-flame text-[10px] font-heading font-black uppercase tracking-[0.25em] mb-8 block">
           {category}
         </span>
         
         <h3 className={cn(
-          "text-bynd-ink font-display font-light uppercase leading-tight mb-6",
-          isFeatured ? "text-4xl md:text-6xl" : "text-2xl line-clamp-2"
+          "text-bynd-ink font-body italic leading-[1.1] mb-8 transition-colors duration-300 group-hover:grad-text",
+          isFeatured ? "text-5xl md:text-7xl" : "text-3xl"
         )}>
           {title}
         </h3>
         
         <p className={cn(
-          "font-display italic text-bynd-stone leading-relaxed mb-8",
+          "font-body text-bynd-ash leading-relaxed mb-10",
           isFeatured ? "text-xl md:text-2xl" : "text-lg line-clamp-3"
         )}>
           {excerpt}
         </p>
 
-        <div className="mt-auto pt-6 flex items-center justify-between border-t border-bynd-border">
+        <div className="mt-auto pt-8 flex items-center justify-between border-t border-black/5">
           <Link 
             href={href}
-            className="font-heading uppercase text-xs font-black tracking-[0.2em] text-bynd-flame hover:text-bynd-flame-light transition-colors"
+            className="font-heading uppercase text-[10px] font-bold tracking-[0.2em] text-bynd-flame hover:text-bynd-flame-light transition-colors"
           >
-            DISCOVER MORE →
+            SEE JOURNEY →
           </Link>
           {readTime && (
-            <span className="text-[10px] text-bynd-ash font-heading font-bold tracking-[0.18em] uppercase">
+            <span className="text-[9px] text-bynd-silver font-heading font-extrabold tracking-[0.15em] uppercase">
               {readTime} MIN READ
             </span>
           )}
