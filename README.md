@@ -167,8 +167,6 @@ This is currently a private project. Contact the team for collaboration.
 
 <div align="center">
 
-Made with ❤️ in Bangladesh
-
 *Where rivers write the stories*
 
 </div>
