@@ -6,8 +6,8 @@ export default config({
       ? {
           kind: 'github',
           repo: {
-            owner: process.env.GITHUB_OWNER || 'placeholder',
-            name: process.env.GITHUB_REPO || 'placeholder',
+            owner: process.env.SKIP_ENV_VALIDATION === 'true' ? 'placeholder' : (process.env.GITHUB_OWNER || 'placeholder'),
+            name: process.env.SKIP_ENV_VALIDATION === 'true' ? 'placeholder' : (process.env.GITHUB_REPO || 'placeholder'),
           },
         }
       : { kind: 'local' },

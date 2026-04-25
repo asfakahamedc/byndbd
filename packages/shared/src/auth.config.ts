@@ -130,11 +130,11 @@ export async function buildFullAuthConfig(): Promise<NextAuthConfig> {
       }),
 
       // Google OAuth — optional, add GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET to .env
-      ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+      ...(process.env.SKIP_ENV_VALIDATION !== "true" && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
         ? [
             GoogleProvider({
-              clientId: process.env.GOOGLE_CLIENT_ID,
-              clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+              clientId: process.env.GOOGLE_CLIENT_ID ?? "MISSING_GOOGLE_CLIENT_ID",
+              clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "MISSING_GOOGLE_CLIENT_SECRET",
               // New Google accounts default to USER role — admins must be manually elevated
               profile(profile) {
                 return {
